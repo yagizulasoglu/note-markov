@@ -1,3 +1,4 @@
+"use strict";
 /** Textual markov chain generator. */
 
 
@@ -15,7 +16,7 @@ class MarkovMachine {
   /** Get markov chain: returns object of Markov chains.
    *
    *  For text of "The cat in the hat.", chains will be:
-   * 
+   *
    *  {
    *   "The": ["cat"],
    *   "cat": ["in"],
@@ -23,11 +24,28 @@ class MarkovMachine {
    *   "the": ["hat."],
    *   "hat.": [null],
    *  }
-   * 
+   *
    * */
 
   getChains() {
-    // TODO: implement this!
+    let chains = {};
+
+    for (let i = 0; i < this.words.length; i++) {
+      const word = this.words[i];
+      const nextWord = this.words[i + 1];
+      if (word in chains) {
+        if (nextWord) {
+          chains[word].push(nextWord);
+        } else {
+          chains[word].push(null);
+        }
+      } else {
+        let nextWords = [];
+        nextWords.push(this.words[i + 1] || null)
+        chains[word] = nextWords;
+      }
+    }
+    return chains;
   }
 
 
@@ -42,3 +60,7 @@ class MarkovMachine {
     // - repeat until reaching the terminal null
   }
 }
+
+module.exports = {
+  MarkovMachine,
+};
