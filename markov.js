@@ -41,7 +41,7 @@ class MarkovMachine {
         }
       } else {
         let nextWords = [];
-        nextWords.push(this.words[i + 1] || null)
+        nextWords.push(this.words[i + 1] || null);
         chains[word] = nextWords;
       }
     }
@@ -58,6 +58,25 @@ class MarkovMachine {
     // - start at the first word in the input text
     // - find a random word from the following-words of that
     // - repeat until reaching the terminal null
+
+    let word = this.words[0];
+    let text = [word];
+    // string makes javascript work harder bc it is mutable
+    // pushing to array is always a more efficient approach
+
+    let value = this.chains[word];
+    // TODO: make random a method within the class
+    let random = Math.floor(Math.random() * value.length);
+
+    while (value[random] !== null) {
+      word = value[random];
+      text.push(word);
+      value = this.chains[word];
+      random = Math.floor(Math.random() * value.length);
+    }
+
+    return text.join(" ");
+
   }
 }
 
